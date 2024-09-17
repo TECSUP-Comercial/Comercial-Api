@@ -6,5 +6,5 @@ public sealed record MediaResponse(
     string Comentarios,
     string Categorias,
     string UrlMedia,
-    TimeSpan Duracion
+    string Duracion
 );

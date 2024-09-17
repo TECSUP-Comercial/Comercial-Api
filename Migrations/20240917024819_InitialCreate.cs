@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using Comercial.Api.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace Comercial.Api.Migrations
 {
@@ -39,7 +39,7 @@ namespace Comercial.Api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UrlMedia = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Likes = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    Likes = table.Column<string>(type: "jsonb", nullable: false),
                     TipoMedia = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Comentarios = table.Column<string>(type: "jsonb", nullable: false),
@@ -85,7 +85,7 @@ namespace Comercial.Api.Migrations
                     Distrito = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Colegio = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Intereses = table.Column<string>(type: "jsonb", nullable: false),
-                    Historial = table.Column<List<VideoHistorial>>(type: "jsonb", nullable: false),
+                    Historial = table.Column<string>(type: "jsonb", nullable: false),
                     Sexo = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -129,6 +129,35 @@ namespace Comercial.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Cursos",
+                columns: new[] { "Id", "Autor", "Categorias", "CreatedOnUtc", "DescripcionFinal", "Description", "Dificultad", "Duracion", "LinkImage", "Nombre" },
+                values: new object[,]
+                {
+                    { new Guid("1082119c-1a36-48c1-bcdb-50c4e557393a"), "Juan Pérez", "[\"Programación\", \"Desarrollo\"]", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Este curso te enseñará desde lo básico hasta temas avanzados de C#.", "Un curso completo sobre desarrollo de aplicaciones con C# y .NET.", "Intermedio", 40, "video.mp4", "Curso de Programación en C#" },
+                    { new Guid("c032c778-4699-4651-ba9a-fc0f9f0025d3"), "Maria López", "[\"Desarrollo Web\", \"Javascript\"]", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Al final del curso serás capaz de crear sitios web dinámicos y escalables.", "Aprende a desarrollar aplicaciones web interactivas usando JavaScript y frameworks modernos.", "Avanzado", 50, "prueba.png", "Curso de Desarrollo Web con JavaScript" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MediaDatos",
+                columns: new[] { "Id", "Categorias", "Comentarios", "CreatedOnUtc", "Description", "Duracion", "IsReel", "Likes", "TipoMedia", "UrlMedia" },
+                values: new object[,]
+                {
+                    { new Guid("aee5a707-759b-4517-aa0a-bbd440a2debb"), "[\"Educación\", \"Tutorial\"]", "[{\"usuario\": \"Juan\", \"texto\": \"Buen video!\", \"fecha\": \"2024-08-25T14:30:00\"}]", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Este es el primer video de ejemplo.", "5:00", false, "[{\"123\": true}, {\"456\": false}]", "Video", "video.mp4" },
+                    { new Guid("cfdf5ae2-b9aa-4fb0-b6a6-4aac0008167e"), "[\"Tecnología\", \"Programacion\"]", "[{\"usuario\": \"Maria\", \"texto\": \"Muy informativo!\", \"fecha\": \"2024-08-26T10:15:00\"}]", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Este es el segundo video de ejemplo.", "5:00", true, "[{\"userId\": \"789\", \"like\": true}]", "Video", "prueba.png" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Seccions",
+                columns: new[] { "Id", "CursoId", "Nombre", "SeccionPadreId", "MediaId", "Description", "NumeroOrden", "CreatedOnUtc" },
+                values: new object[,]
+                {
+                    { new Guid("a8f3a5a9-6c3d-4e50-9f0c-8b2c3b2c0c59"), new Guid("1082119c-1a36-48c1-bcdb-50c4e557393a"),"Introducción a C#", null,new Guid("aee5a707-759b-4517-aa0a-bbd440a2debb"),"Una introducción básica al lenguaje C#." ,1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)},
+                    { new Guid("b9c2a456-5f5f-4e44-b348-b749a6d5d779"), new Guid("c032c778-4699-4651-ba9a-fc0f9f0025d3"),"Fundamentos de JavaScript", null,new Guid("cfdf5ae2-b9aa-4fb0-b6a6-4aac0008167e"), "Aprenderás los fundamentos esenciales de JavaScript.",2 ,new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)}
+                }
+            );
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seccions_CursoId",

@@ -19,6 +19,6 @@ public sealed class MediaDatos : BaseEntity
     public string Comentarios { get; set; } = string.Empty;
     public string Categorias { get; set; } = string.Empty;
     public bool IsReel { get; set; }
-    public TimeSpan Duracion { get; set; } = TimeSpan.Zero;
+    public string Duracion { get; set; } = string.Empty;
 }
 

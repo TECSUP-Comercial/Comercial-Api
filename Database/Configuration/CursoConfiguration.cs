@@ -36,5 +36,31 @@ public class CursoConfiguration : IEntityTypeConfiguration<Curso>
 
         builder.Property(x => x.Duracion)
             .IsRequired();
+
+        builder.HasData(
+            new Curso
+            {
+                Id = Guid.NewGuid(),
+                Nombre = "Curso de Programación en C#",
+                Description = "Un curso completo sobre desarrollo de aplicaciones con C# y .NET.",
+                Autor = "Juan Pérez",
+                Dificultad = "Intermedio",
+                Categorias = "Programación, Desarrollo",
+                LinkImage = "video.mp4",
+                DescripcionFinal = "Este curso te enseñará desde lo básico hasta temas avanzados de C#.",
+                Duracion = 40
+            },
+        new Curso
+        {
+            Id = Guid.NewGuid(),
+            Nombre = "Curso de Desarrollo Web con JavaScript",
+            Description = "Aprende a desarrollar aplicaciones web interactivas usando JavaScript y frameworks modernos.",
+            Autor = "Maria López",
+            Dificultad = "Avanzado",
+            Categorias = "Desarrollo Web, JavaScript",
+            LinkImage = "prueba.png",
+            DescripcionFinal = "Al final del curso serás capaz de crear sitios web dinámicos y escalables.",
+            Duracion = 50
+        });
     }
 }
